@@ -1,17 +1,42 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const prisma = require("../../prismaClient");
+const prisma = require("../config/prismaClient");
 
 exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
+  try {
+    if (!req.body) {
+      return res.status(400).json({ message: "Request body is missing" });
+    }
 
-  const hashed = await bcrypt.hash(password, 10);
+    const { name, email, password } = req.body;
 
-  const user = await prisma.users.create({
-    data: { name, email, password: hashed }
-  });
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-  res.json(user);
+    const bcrypt = require("bcrypt");
+    const prisma = require("../config/prisma");
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.users.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role: "USER"
+      }
+    });
+
+    // 🔥 Remove password from response
+    const { password: _, ...userWithoutPassword } = user;
+
+    res.status(201).json(userWithoutPassword);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 exports.login = async (req, res) => {
