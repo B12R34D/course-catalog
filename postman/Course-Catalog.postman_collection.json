@@ -1,0 +1,151 @@
+{
+  "info": {
+    "name": "Course Catalog API",
+    "_postman_id": "c1a9f2b3-1234-4567-890a-coursecatalog",
+    "description": "Postman Collection for Course Catalog API (Express + Prisma + JWT)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Admin User\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"ADMIN\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses"]
+            }
+          }
+        },
+        {
+          "name": "Get Course By ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses/1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Course (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topic_id\": 1,\n  \"language_id\": 1,\n  \"title\": \"Fullstack Web Development\",\n  \"description\": \"Complete course covering frontend and backend\",\n  \"short_description\": \"Learn React and Node\",\n  \"price\": 199.99,\n  \"discount_rate\": 10.00,\n  \"thumbnail_url\": \"https://example.com/image.jpg\",\n  \"level\": \"BEGINNER\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Course (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses/1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses", "1"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Fullstack Web Development Updated\",\n  \"price\": 149.99,\n  \"discount_rate\": 5.00,\n  \"level\": \"INTERMEDIATE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Course (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/courses/1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "courses", "1"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
