@@ -35,7 +35,7 @@ Axios
 
 Cara Menjalankan Project
 1. Clone Repository
-git clone https://github.com/username/course-catalog.git
+git clone [https://github.com/username/course-catalog.git](https://github.com/B12R34D/course-catalog)
 cd course-catalog
 Backend Setup
 
@@ -50,7 +50,7 @@ Setup Environment Variable
 
 Buat file .env di dalam folder backend:
 
-PORT=5000
+PORT=3000
 DATABASE_URL="postgresql://postgres:password@localhost:5432/course_catalog"
 JWT_SECRET=supersecretkey
 
@@ -77,7 +77,7 @@ npm run dev
 
 Backend akan berjalan di:
 
-http://localhost:5000
+http://localhost:3000
 Frontend Setup
 
 Masuk ke folder frontend:
@@ -197,3 +197,4 @@ Price dan discount menggunakan tipe Decimal di Prisma untuk menjaga presisi.
 Author
 
 Dibuat sebagai bagian dari technical test submission.
+
