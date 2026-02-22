@@ -1,200 +1,261 @@
-    Course Catalog API & Frontend
 
-Project ini adalah aplikasi Course Catalog sederhana yang dibuat sebagai technical test.
-Terdiri dari backend REST API (Express + Prisma) dan frontend React (Vite + Tailwind).
+markdown
+# 📚 Course Catalog REST API
 
-Backend menyediakan authentication (JWT), role-based authorization (USER & ADMIN), serta CRUD untuk course.
-Frontend menampilkan daftar course dan terhubung ke API menggunakan Axios.
+REST API sederhana untuk katalog kursus online sebagai bagian dari Test Kompetensi Backend.
 
-Tech Stack
-Backend
-
-Node.js
-
-Express 5
-
-Prisma ORM
-
-PostgreSQL
-
-JWT (jsonwebtoken)
-
-Bcrypt
-
-CORS
-
-Frontend
-
-React 19
-
-Vite
-
-TailwindCSS
-
-Axios
-
-Cara Menjalankan Project
-1. Clone Repository
-git clone [https://github.com/username/course-catalog.git](https://github.com/B12R34D/course-catalog)
-cd course-catalog
-Backend Setup
-
-Masuk ke folder backend:
-
-cd backend
-
-Install dependencies:
-
-npm install
-Setup Environment Variable
-
-Buat file .env di dalam folder backend:
-
-PORT=3000
-DATABASE_URL="postgresql://postgres:password@localhost:5432/course_catalog"
-JWT_SECRET=supersecretkey
-
-Silakan sesuaikan DATABASE_URL dengan konfigurasi database lokal kamu.
-
-Setup Database (Prisma)
-
-Generate Prisma Client:
-
-npx prisma generate
-
-Jalankan migration:
-
-npx prisma migrate dev --name init
-
-Jika ada file seed.js, jalankan:
-
-node seed.js
-Menjalankan Backend
-
-Development mode:
-
-npm run dev
-
-Backend akan berjalan di:
-
-http://localhost:3000
-Frontend Setup
-
-Masuk ke folder frontend:
-
-cd ../frontend
-
-Install dependencies:
-
-npm install
-
-Jalankan development server:
-
-npm run dev
-
-Frontend akan berjalan di:
-
-http://localhost:5173
-Authentication Flow
-
-Register user (role bisa USER atau ADMIN)
-
-Login untuk mendapatkan JWT token
-
-Gunakan token sebagai Bearer Token untuk endpoint yang membutuhkan authorization
-
-Contoh header:
-
-Authorization: Bearer <your_token>
-API Endpoints
-Auth
-
-POST /api/auth/register
-POST /api/auth/login
-
-Courses
-
-GET /api/courses
-GET /api/courses/:id
-POST /api/courses (Admin only)
-PUT /api/courses/:id (Admin only)
-DELETE /api/courses/:id (Admin only)
-
-Postman
-
-Di dalam folder postman/ tersedia:
-
-Course-Catalog.postman_collection.json
-
-Course-Catalog-Environment.postman_environment.json
-
-Cara pakai:
-
-Import collection dan environment ke Postman
-
-Pilih environment "Course Catalog Local"
-
-Jalankan request Login
-
-Token akan otomatis tersimpan jika sudah menambahkan script pada tab Tests
-
-Project Structure
-
-course-catalog/
-│
+## 📁 Struktur Proyek
+.
 ├── backend/
-│   ├── prisma/
-│   │   ├── migrations/
-│   │   └── schema.prisma
-│   │
+│   ├── prisma/                 # Skema dan migrasi database Prisma
 │   ├── src/
-│   │   ├── config/
-│   │   │   └── prisma.js
-│   │   ├── controllers/
+│   │   ├── config/             # Konfigurasi database & environment
+│   │   │   ├── prisma.js
+│   │   │   └── prismaClient.js
+│   │   ├── controllers/        # Logika bisnis untuk setiap entitas
 │   │   │   ├── auth.controller.js
-│   │   │   └── course.controller.js
-│   │   ├── middlewares/
-│   │   │   ├── auth.middleware.js
-│   │   │   └── admin.middleware.js
-│   │   ├── routes/
+│   │   │   ├── course.controller.js
+│   │   │   ├── language.controller.js
+│   │   │   ├── topic.controller.js
+│   │   │   └── user.controller.js
+│   │   ├── middlewares/        # Fungsi filter/validasi (Auth & Admin)
+│   │   │   ├── admin.middleware.js
+│   │   │   └── auth.middleware.js
+│   │   ├── routes/             # Definisi endpoint API
 │   │   │   ├── auth.routes.js
-│   │   │   └── course.routes.js
-│   │   ├── app.js
-│   │   └── server.js
-│   │
-│   ├── .env
-│   └── package.json
+│   │   │   ├── course.routes.js
+│   │   │   ├── language.routes.js
+│   │   │   ├── topic.routes.js
+│   │   │   └── user.routes.js
+│   │   ├── app.js              # Inisialisasi Express
+│   │   └── server.js           # Entry point untuk menjalankan server
+│   ├── .env                    # Variabel lingkungan (Rahasia)
+│   ├── .env.example            # Contoh variabel lingkungan
+│   ├── .gitignore
+│   ├── package-lock.json
+│   ├── package.json
+│   └── seed.js                 # Script untuk data awal database
 │
 ├── frontend/
 │   ├── node_modules/
-│   ├── public/
+│   ├── public/                 # Aset publik (SVG, logo, dll)
+│   │   └── vite.svg
 │   ├── src/
+│   │   ├── assets/             # Gambar/style yang diproses bundler
+│   │   ├── App.css
+│   │   ├── App.jsx             # Komponen utama React
+│   │   ├── index.css
+│   │   └── main.jsx            # Entry point React
 │   ├── .gitignore
 │   ├── eslint.config.js
 │   ├── index.html
 │   ├── package-lock.json
 │   ├── package.json
 │   ├── postcss.config.js
-│   ├── tailwind.config.js
-│   ├── vite.config.js
-│   └── README.md
+│   ├── tailwind.config.js      # Konfigurasi Tailwind CSS
+│   └── vite.config.js          # Konfigurasi Vite
 │
-├── postman/
-│   ├── Course-Catalog.postman_collection.json
-│   └── Course-Catalog-Environment.postman_environment.json
-│
+├── postman/                    # Koleksi API untuk pengujian
+│   ├── Course-Catalog-Envi...
+│   └── Course-Catalog.post...
 └── README.md
 
+## 🚀 Features
 
-Catatan
+### 🔐 Authentication
+- Register (USER)
+- Login (USER & ADMIN)
+- JWT Authentication
+- Role-based Authorization
 
-Field created_by_id pada course diambil dari user yang login (berdasarkan JWT).
+### 👤 Admin Only (Protected Routes)
+CRUD untuk:
+- Users
+- Topics
+- Languages
+- Courses
 
-Hanya user dengan role ADMIN yang dapat membuat, mengubah, dan menghapus course.
+### 🌐 Public Endpoints
+- Get All Courses
+- Get Course Detail
 
-Price dan discount menggunakan tipe Decimal di Prisma untuk menjaga presisi.
+---
 
-Author
+## 🛠 Tech Stack
 
-Dibuat sebagai bagian dari technical test submission.
+- Node.js
+- Express.js
+- Prisma ORM
+- MySQL / PostgreSQL
+- JWT (Authentication)
+- Bcrypt (Password Hashing)
 
+---
+
+## 📦 Installation & Setup
+
+### 1️⃣ Clone Repository
+
+bash
+git clone https://github.com/B12R34D/course-catalog.git
+cd course-catalog
+
+
+### 2️⃣ Install Backend Dependencies
+
+bash
+cd backend
+npm install
+
+
+### 3️⃣ Setup Environment Variables
+
+Buat file `.env` di folder backend:
+
+
+PORT=3000
+DATABASE_URL="your_database_url"
+JWT_SECRET="your_secret_key"
+
+
+
+
+### 4️⃣ Setup Database
+
+bash
+npx prisma migrate dev
+
+
+Optional (create admin manually via Prisma Studio):
+
+bash
+npx prisma studio
+
+
+Ubah role user menjadi:
+
+
+ADMIN
+
+
+### 5️⃣ Run Server
+bash
+npm run dev
+
+
+Server berjalan di:
+
+
+http://localhost:3000
+
+
+
+
+## 📌 API Endpoints
+
+### 🔐 Auth
+
+| Method | Endpoint           | Access |
+| ------ | ------------------ | ------ |
+| POST   | /api/auth/register | Public |
+| POST   | /api/auth/login    | Public |
+
+
+
+### 👤 Users (Admin Only)
+
+| Method | Endpoint       |
+| ------ | -------------- |
+| GET    | /api/users     |
+| GET    | /api/users/:id |
+| PUT    | /api/users/:id |
+| DELETE | /api/users/:id |
+
+
+
+### 📂 Topics (Admin Only)
+
+| Method | Endpoint        |
+| ------ | --------------- |
+| POST   | /api/topics     |
+| GET    | /api/topics     |
+| GET    | /api/topics/:id |
+| PUT    | /api/topics/:id |
+| DELETE | /api/topics/:id |
+
+
+
+### 🌎 Languages (Admin Only)
+
+| Method | Endpoint           |
+| ------ | ------------------ |
+| POST   | /api/languages     |
+| GET    | /api/languages     |
+| GET    | /api/languages/:id |
+| PUT    | /api/languages/:id |
+| DELETE | /api/languages/:id |
+
+
+
+### 🎓 Courses
+
+#### ✅ Public
+
+| Method | Endpoint         |
+| ------ | ---------------- |
+| GET    | /api/courses     |
+| GET    | /api/courses/:id |
+
+#### 🔐 Admin Only
+
+| Method | Endpoint         |
+| ------ | ---------------- |
+| POST   | /api/courses     |
+| PUT    | /api/courses/:id |
+| DELETE | /api/courses/:id |
+
+
+
+## 🔑 Role Enum
+
+USER
+ADMIN
+
+
+
+
+## 🎯 Course Level Enum
+
+
+ALL LEVEL
+BEGINNER
+INTERMEDIATE
+ADVANCE
+
+
+
+
+## 📮 Postman Collection
+
+File Postman collection tersedia di repository:
+
+
+course-catalog.postman_collection.json
+
+
+Import ke Postman untuk testing API.
+
+
+
+## 📌 Notes
+
+* Password di-hash menggunakan bcrypt
+* Authentication menggunakan JWT
+* Middleware memastikan hanya ADMIN yang dapat mengakses CRUD
+* Public endpoint tidak memerlukan token
+
+
+
+## 👨‍💻 Author
+
+ERIK MUHAMMAD AL-ZABAR
